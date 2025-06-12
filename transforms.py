@@ -1,8 +1,6 @@
 import torchvision.transforms as T
+# contrastiveTransform (SimCLR, MoCo, BYOL)
 
-################################################################################
-# 1) ContrastiveTransform (SimCLR, MoCo, BYOL)
-################################################################################
 class ContrastiveTransform:
     def __init__(self, base_size=32):
         s = 1.0
@@ -27,8 +25,8 @@ class ContrastiveTransform:
         return self.transform(x), self.transform(x)
 
 ################################################################################
-# 2) DINO Multi-Crop Transform
-################################################################################
+# dino Multi-Crop Transform
+
 class DINOTransform:
     def __init__(self,
                  global_crop_size=32,
@@ -62,10 +60,10 @@ class DINOTransform:
 
     def __call__(self, img):
         crops = []
-        # Two global crops
+        # two global crops
         for _ in range(2):
             crops.append(self.global_transforms(img))
-        # Four local crops
+        # four local crops
         for _ in range(self.local_crops_number):
             crops.append(self.local_transforms(img))
         return crops

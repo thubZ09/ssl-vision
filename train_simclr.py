@@ -21,7 +21,7 @@ def main():
     args = parse_args()
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # 1) DataLoader
+    # dataLoader
     train_transform = ContrastiveTransform(base_size=32)
     train_dataset = datasets.CIFAR10(
         root="./data",
@@ -37,12 +37,12 @@ def main():
         drop_last=True
     )
 
-    # 2) Model, optimizer, loss
+    #model, optimizer, loss
     model = ResNetEncoder(base="resnet18", out_dim=128).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     criterion = NTXentLoss(batch_size=args.batch_size, temperature=args.temperature)
 
-    # 3) Training loop
+    # train loop
     for epoch in range(args.epochs):
         model.train()
         total_loss = 0.0
@@ -64,7 +64,7 @@ def main():
         avg_loss = total_loss / len(train_loader)
         print(f"[SimCLR] Epoch [{epoch+1}/{args.epochs}]  Loss: {avg_loss:.4f}")
 
-    # 4) Save checkpoint
+    # Save 
     torch.save(model.state_dict(), args.save_path)
     print(f"SimCLR model saved to {args.save_path}")
 

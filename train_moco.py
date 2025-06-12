@@ -37,7 +37,7 @@ def main():
         drop_last=True
     )
 
-    # 2) Model, optimizer, loss
+    # model, optimizer, loss
     moco_model = MoCo(
         base_encoder=lambda out_dim: ResNetEncoder(base="resnet18", out_dim=out_dim),
         dim=128,
@@ -49,7 +49,7 @@ def main():
                           lr=args.lr, momentum=0.9, weight_decay=1e-4)
     criterion = torch.nn.CrossEntropyLoss()
 
-    # 3) Training loop
+    # train
     for epoch in range(args.epochs):
         moco_model.train()
         total_loss = 0.0
@@ -69,7 +69,6 @@ def main():
         avg_loss = total_loss / len(train_loader)
         print(f"[MoCo] Epoch [{epoch+1}/{args.epochs}]  Loss: {avg_loss:.4f}")
 
-    # 4) Save only the query encoder (encoder_q + its projection head)
     state = {
         "encoder_q": moco_model.encoder_q.state_dict(),
     }

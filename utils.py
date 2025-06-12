@@ -1,9 +1,8 @@
 import torch
 import torch.nn as nn
 
-################################################################################
-# 1) NT-Xent Loss for SimCLR
-################################################################################
+# NT-Xent Loss for SimCLR
+
 class NTXentLoss(nn.Module):
     def __init__(self, batch_size, temperature=0.5):
         super().__init__()
@@ -37,9 +36,8 @@ class NTXentLoss(nn.Module):
         loss = nn.CrossEntropyLoss()(logits, labels)
         return loss
 
-################################################################################
-# 2) Cosine Similarity (if needed)
-################################################################################
+#cosine Similarity (if needed)
+
 def cosine_similarity(a, b, eps=1e-8):
     a_norm = a / (a.norm(dim=1, keepdim=True) + eps)
     b_norm = b / (b.norm(dim=1, keepdim=True) + eps)
